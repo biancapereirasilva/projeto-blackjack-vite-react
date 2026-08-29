@@ -1,7 +1,6 @@
 import "./Header.css";
-import Button from "./Button";
 
-function Header({ playerName, theme, onToggleTheme, onExit }) {
+function Header({ playerName }) {
   return (
     <header className="header">
       <div className="header__player">Jogador: {playerName}</div>
@@ -15,12 +14,6 @@ function Header({ playerName, theme, onToggleTheme, onExit }) {
 
       <div className="header__actions">
         <span className="header__goal">OBJETIVO DA RODADA: FAZER 21 PONTOS</span>
-        <Button
-          label={theme === "dark" ? "TROCAR PARA TEMA CLARO" : "TROCAR PARA TEMA ESCURO"}
-          variant="secondary"
-          onClick={onToggleTheme}
-        />
-        <Button label="Sair" variant="ghost" onClick={onExit} />
       </div>
     </header>
   );

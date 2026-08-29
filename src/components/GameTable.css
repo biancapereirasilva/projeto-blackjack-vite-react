@@ -19,15 +19,15 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-background);
   padding: 16px;
   border-radius: var(--radius-sm);
   min-height: 130px;
 }
 
 .game-table__status {
-  background-color: var(--color-accent-soft);
-  color: var(--color-primary-dark);
+  background-color: var(--color-secondary);
+  color: var(--color-background);
   padding: 10px 16px;
   border-radius: var(--radius-sm);
   font-weight: 600;

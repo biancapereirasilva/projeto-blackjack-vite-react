@@ -1,30 +1,15 @@
-.app--dark {
+:root {
   --color-primary: #991b1b;
-  --color-primary-dark: #450a0a;
+  --color-background: #450a0a;
   --color-accent: #facc15;
-  --color-accent-soft: #f87171;
+  --color-secondary: #f87171;
   --color-card-bg: #fef2f2;
   --color-score-bg: #f87171;
   --color-text-light: #fef2f2;
   --color-suit-red: #991b1b;
   --color-suit-black: #450a0a;
   --shadow-card: 0 4px 10px rgba(0, 0, 0, 0.35);
-}
 
-.app--light {
-  --color-primary: #f87171;
-  --color-primary-dark: #991b1b;
-  --color-accent: #facc15;
-  --color-accent-soft: #fef2f2;
-  --color-card-bg: #ffffff;
-  --color-score-bg: #fef2f2;
-  --color-text-light: #450a0a;
-  --color-suit-red: #991b1b;
-  --color-suit-black: #450a0a;
-  --shadow-card: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-:root {
   --radius-sm: 8px;
   --radius-md: 8px;
   --radius-pill: 8px;
@@ -46,10 +31,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
-}
-
-.app--light {
-  background-color: #fef2f2;
 }
 
 .app__card-wrapper {

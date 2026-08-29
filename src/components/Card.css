@@ -19,8 +19,8 @@
 .card--hidden {
   background: repeating-linear-gradient(
     45deg,
-    var(--color-primary-dark),
-    var(--color-primary-dark) 6px,
+    var(--color-background),
+    var(--color-background) 6px,
     var(--color-primary) 6px,
     var(--color-primary) 12px
   );

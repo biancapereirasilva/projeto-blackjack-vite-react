@@ -7,7 +7,7 @@
 .scoreboard__item {
   flex: 1;
   background-color: var(--color-score-bg);
-  color: var(--color-primary-dark);
+  color: var(--color-background);
   border-radius: var(--radius-sm);
   padding: 10px 16px;
   display: flex;

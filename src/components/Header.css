@@ -30,7 +30,7 @@
 
 .header__badge {
   background-color: var(--color-accent);
-  color: var(--color-primary-dark);
+  color: var(--color-background);
   font-weight: 800;
   width: 32px;
   height: 32px;
@@ -54,7 +54,7 @@
 }
 
 .header__goal {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-background);
   padding: 6px 12px;
   border-radius: var(--radius-pill);
   font-size: 0.7rem;
