@@ -1,0 +1,70 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: var(--color-text-light);
+}
+
+.header__player {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.header__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header__title h1 {
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: var(--color-text-light);
+}
+
+.header__badge {
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  font-weight: 800;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__author {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  width: 100%;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header__goal {
+  background-color: var(--color-background);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,40 @@
+.card {
+  width: 90px;
+  height: 130px;
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card--hidden {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-background),
+    var(--color-background) 6px,
+    var(--color-primary) 6px,
+    var(--color-primary) 12px
+  );
+}
+
+.card__back {
+  color: var(--color-accent);
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 64px;
+    height: 92px;
+  }
+}
