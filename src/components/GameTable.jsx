@@ -9,6 +9,7 @@ function GameTable({
   playerScore,
   dealerScore,
   statusMessage,
+  isRoundOver,
   onHit = () => {},
   onStand = () => {},
   onNewRound = () => {},
@@ -20,8 +21,13 @@ function GameTable({
       <div className="game-table__hand">
         <h2 className="game-table__hand-label">DEALER</h2>
         <div className="game-table__cards">
-          {dealerHand.map((card) => (
-            <Card key={card.code} image={card.image} code={card.code} />
+          {dealerHand.map((card, index) => (
+            <Card
+              key={card.id ?? card.code}
+              image={card.image}
+              code={card.code}
+              hidden={index === 1 && !isRoundOver}
+            />
           ))}
         </div>
       </div>
@@ -30,7 +36,7 @@ function GameTable({
         <h2 className="game-table__hand-label">JOGADOR</h2>
         <div className="game-table__cards">
           {playerHand.map((card) => (
-            <Card key={card.code} image={card.image} code={card.code} />
+            <Card key={card.id ?? card.code} image={card.image} code={card.code} />
           ))}
         </div>
       </div>
@@ -38,8 +44,8 @@ function GameTable({
       <p className="game-table__status">{statusMessage}</p>
 
       <div className="game-table__actions">
-        <Button label="Hit" variant="primary" onClick={onHit} />
-        <Button label="Stand" variant="secondary" onClick={onStand} />
+        <Button label="Hit" variant="primary" onClick={onHit} disabled={isRoundOver} />
+        <Button label="Stand" variant="secondary" onClick={onStand} disabled={isRoundOver} />
         <Button label="Nova rodada" variant="ghost" onClick={onNewRound} />
       </div>
     </section>
