@@ -1,4 +1,3 @@
-import "./GameTable.css";
 import Card from "./Card";
 import Button from "./Button";
 import ScoreBoard from "./ScoreBoard";
@@ -15,12 +14,12 @@ function GameTable({
   onNewRound = () => {},
 }) {
   return (
-    <section className="game-table">
+    <section className="flex flex-col gap-4 rounded-b-lg bg-[#991B1B] px-6 pb-6 pt-2 max-[480px]:px-3 max-[480px]:pb-4">
       <ScoreBoard playerScore={playerScore} dealerScore={dealerScore} />
 
-      <div className="game-table__hand">
-        <h2 className="game-table__hand-label">DEALER</h2>
-        <div className="game-table__cards">
+      <div>
+        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[#FEF2F2] opacity-80">DEALER</h2>
+        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[#450A0A] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
           {dealerHand.map((card, index) => (
             <Card
               key={card.id ?? card.code}
@@ -32,18 +31,20 @@ function GameTable({
         </div>
       </div>
 
-      <div className="game-table__hand">
-        <h2 className="game-table__hand-label">JOGADOR</h2>
-        <div className="game-table__cards">
+      <div>
+        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[#FEF2F2] opacity-80">JOGADOR</h2>
+        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[#450A0A] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
           {playerHand.map((card) => (
             <Card key={card.id ?? card.code} image={card.image} code={card.code} />
           ))}
         </div>
       </div>
 
-      <p className="game-table__status">{statusMessage}</p>
+      <p className="rounded-lg bg-[#F87171] px-4 py-2.5 text-center font-semibold text-[#450A0A]">
+        {statusMessage}
+      </p>
 
-      <div className="game-table__actions">
+      <div className="flex flex-wrap justify-center gap-4">
         <Button label="Hit" variant="primary" onClick={onHit} disabled={isRoundOver} />
         <Button label="Stand" variant="secondary" onClick={onStand} disabled={isRoundOver} />
         <Button label="Nova rodada" variant="ghost" onClick={onNewRound} />
