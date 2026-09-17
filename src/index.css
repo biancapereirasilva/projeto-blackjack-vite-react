@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -52,6 +54,8 @@
 
 body {
   margin: 0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #450a0a;
 }
 
 #root {
