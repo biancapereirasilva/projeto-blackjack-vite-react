@@ -113,3 +113,21 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+[data-theme="normal"] {
+  --color-primary: #991b1b;
+  --color-secondary: #f87171;
+  --color-background: #450a0a;
+  --color-text: #fef2f2;
+  --color-accent: #facc15;
+  --color-accent-text: #450a0a;
+}
+
+[data-theme="inverted"] {
+  --color-primary: #f87171;
+  --color-secondary: #991b1b;
+  --color-background: #fef2f2;
+  --color-text: #450a0a;
+  --color-accent: #facc15;
+  --color-accent-text: #450a0a;
+}
