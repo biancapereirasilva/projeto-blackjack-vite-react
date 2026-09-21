@@ -1,25 +1,28 @@
 import Card from "./Card";
 import Button from "./Button";
 import ScoreBoard from "./ScoreBoard";
+import { useGame } from "../context/GameContext";
 
-function GameTable({
-  playerHand,
-  dealerHand,
-  playerScore,
-  dealerScore,
-  statusMessage,
-  isRoundOver,
-  onHit = () => {},
-  onStand = () => {},
-  onNewRound = () => {},
-}) {
+function GameTable() {
+  const {
+    playerHand,
+    dealerHand,
+    playerScore,
+    dealerScore,
+    statusMessage,
+    isRoundOver,
+    handleHit,
+    handleStand,
+    handleNewRound,
+  } = useGame();
+
   return (
-    <section className="flex flex-col gap-4 rounded-b-lg bg-[#991B1B] px-6 pb-6 pt-2 max-[480px]:px-3 max-[480px]:pb-4">
+    <section className="flex flex-col gap-4 rounded-b-lg bg-[var(--color-primary)] px-6 pb-6 pt-2 max-[480px]:px-3 max-[480px]:pb-4">
       <ScoreBoard playerScore={playerScore} dealerScore={dealerScore} />
 
       <div>
-        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[#FEF2F2] opacity-80">DEALER</h2>
-        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[#450A0A] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
+        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[var(--color-text)] opacity-80">DEALER</h2>
+        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[var(--color-background)] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
           {dealerHand.map((card, index) => (
             <Card
               key={card.id ?? card.code}
@@ -32,22 +35,22 @@ function GameTable({
       </div>
 
       <div>
-        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[#FEF2F2] opacity-80">JOGADOR</h2>
-        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[#450A0A] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
+        <h2 className="mb-2 text-[0.8rem] tracking-wide text-[var(--color-text)] opacity-80">JOGADOR</h2>
+        <div className="flex min-h-32.5 flex-wrap gap-3 rounded-lg bg-[var(--color-background)] p-4 max-[480px]:gap-2 max-[480px]:p-2.5">
           {playerHand.map((card) => (
             <Card key={card.id ?? card.code} image={card.image} code={card.code} />
           ))}
         </div>
       </div>
 
-      <p className="rounded-lg bg-[#F87171] px-4 py-2.5 text-center font-semibold text-[#450A0A]">
+      <p className="rounded-lg bg-[var(--color-secondary)] px-4 py-2.5 text-center font-semibold text-[var(--color-background)]">
         {statusMessage}
       </p>
 
       <div className="flex flex-wrap justify-center gap-4">
-        <Button label="Hit" variant="primary" onClick={onHit} disabled={isRoundOver} />
-        <Button label="Stand" variant="secondary" onClick={onStand} disabled={isRoundOver} />
-        <Button label="Nova rodada" variant="ghost" onClick={onNewRound} />
+        <Button label="Hit" variant="primary" onClick={handleHit} disabled={isRoundOver} />
+        <Button label="Stand" variant="secondary" onClick={handleStand} disabled={isRoundOver} />
+        <Button label="Nova rodada" variant="ghost" onClick={handleNewRound} />
       </div>
     </section>
   );

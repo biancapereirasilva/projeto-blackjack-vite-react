@@ -1,8 +1,8 @@
 function Button({ label, onClick, variant = "primary", disabled = false }) {
   const variants = {
-    primary: "bg-[#FACC15]",
-    secondary: "bg-[#FEF2F2]",
-    ghost: "bg-transparent text-[#FEF2F2] border border-[#FEF2F2]",
+    primary: "bg-[var(--color-accent)]",
+    secondary: "bg-[var(--color-text)]",
+    ghost: "bg-transparent text-[var(--color-text)] border border-[var(--color-text)]",
   };
 
   return (

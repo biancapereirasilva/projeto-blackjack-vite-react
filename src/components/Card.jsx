@@ -10,24 +10,24 @@ function Card({ image, code, hidden = false }) {
         className="flex h-32.5 w-22.5 items-center justify-center overflow-hidden rounded-lg shadow-md max-[480px]:h-23 max-[480px]:w-16"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(45deg, #450A0A, #450A0A 6px, #991B1B 6px, #991B1B 12px)",
+            "repeating-linear-gradient(45deg, var(--color-background), var(--color-background) 6px, var(--color-primary) 6px, var(--color-primary) 12px)",
         }}
         aria-label="Carta oculta"
       >
-        <span className="text-3xl font-black text-[#FACC15]">?</span>
+        <span className="text-3xl font-black text-[var(--color-accent)]">?</span>
       </div>
     );
   }
 
   return (
-    <div className="relative flex h-32.5 w-22.5 items-center justify-center overflow-hidden rounded-lg bg-[#FEF2F2] shadow-md max-[480px]:h-23 max-[480px]:w-16">
+    <div className="relative flex h-32.5 w-22.5 items-center justify-center overflow-hidden rounded-lg bg-[var(--color-text)] shadow-md max-[480px]:h-23 max-[480px]:w-16">
       {!loaded && !failed && (
-        <span className="absolute text-[0.65rem] text-[#991B1B] animate-pulse">
+        <span className="absolute text-[0.65rem] text-[var(--color-primary)] animate-pulse">
           carregando...
         </span>
       )}
       {failed && (
-        <span className="absolute text-[0.65rem] text-[#991B1B]">{code}</span>
+        <span className="absolute text-[0.65rem] text-[var(--color-primary)]">{code}</span>
       )}
       <img
         className={`h-full w-full object-contain transition-opacity duration-200 ${
