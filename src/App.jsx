@@ -1,18 +1,21 @@
-import Header from "./components/Header";
-import GameTable from "./components/GameTable";
+import { Routes, Route } from "react-router-dom";
 import { GameProvider } from "./context/GameContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Game from "./pages/Game";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <ThemeProvider>
       <GameProvider>
-        <div className="flex min-h-screen items-center justify-center bg-[var(--color-background)] p-6">
-          <div className="w-full max-w-155 overflow-hidden rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
-            <Header playerName="Bianca Pereira" />
-            <GameTable />
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </GameProvider>
     </ThemeProvider>
   );
