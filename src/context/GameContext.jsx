@@ -1,7 +1,35 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
-import cardsData from "../data/cardsMock.json";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 
-const cardsPool = cardsData.cards;
+const BASE_URL = "https://deckofcardsapi.com/api/deck";
+
+async function request(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Erro na requisição à API");
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || "A API retornou um erro");
+  return data;
+}
+
+function createShuffledDeck() {
+  return request(`${BASE_URL}/new/shuffle/?deck_count=1`);
+}
+
+function shuffleDeck(deckId) {
+  return request(`${BASE_URL}/${deckId}/shuffle/`);
+}
+
+function drawCards(deckId, count = 1) {
+  return request(`${BASE_URL}/${deckId}/draw/?count=${count}`);
+}
+
+const INITIAL_MESSAGE = "Sua vez: escolha Hit, Stand ou reinicie a rodada";
 
 function cardValue(value) {
   if (value === "ACE") return 11;
@@ -20,26 +48,58 @@ function calculateScore(hand) {
   return score;
 }
 
-function drawCard() {
-  const randomIndex = Math.floor(Math.random() * cardsPool.length);
-  return {
-    ...cardsPool[randomIndex],
-    id: `${cardsPool[randomIndex].code}-${Date.now()}-${Math.random()}`,
-  };
+function withId(card) {
+  return { ...card, id: `${card.code}-${Date.now()}-${Math.random()}` };
 }
 
 const GameContext = createContext(null);
 
 export function GameProvider({ children }) {
-  const [playerHand, setPlayerHand] = useState([drawCard(), drawCard()]);
-  const [dealerHand, setDealerHand] = useState([drawCard(), drawCard()]);
+  const [deckId, setDeckId] = useState(null);
+  const [playerHand, setPlayerHand] = useState([]);
+  const [dealerHand, setDealerHand] = useState([]);
   const [isRoundOver, setIsRoundOver] = useState(false);
-  const [statusMessage, setStatusMessage] = useState(
-    "Sua vez: escolha Hit, Stand ou reinicie a rodada"
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [statusMessage, setStatusMessage] = useState(INITIAL_MESSAGE);
+
+  const hasStarted = useRef(false);
 
   const playerScore = calculateScore(playerHand);
   const dealerScore = calculateScore(dealerHand);
+
+  // Busca o baralho (ou embaralha o existente) e distribui 2 cartas para cada
+  const startRound = useCallback(async (existingDeckId) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      let id = existingDeckId;
+      if (id) {
+        await shuffleDeck(id);
+      } else {
+        const deck = await createShuffledDeck();
+        id = deck.deck_id;
+        setDeckId(id);
+      }
+
+      const data = await drawCards(id, 4);
+      const cards = data.cards.map(withId);
+      setPlayerHand(cards.slice(0, 2));
+      setDealerHand(cards.slice(2, 4));
+      setIsRoundOver(false);
+      setStatusMessage(INITIAL_MESSAGE);
+    } catch {
+      setError("Não foi possível carregar o baralho. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (hasStarted.current) return; // evita chamada dupla do StrictMode
+    hasStarted.current = true;
+    startRound();
+  }, [startRound]);
 
   useEffect(() => {
     if (playerScore > 21 && !isRoundOver) {
@@ -48,23 +108,38 @@ export function GameProvider({ children }) {
     }
   }, [playerScore, isRoundOver]);
 
-  const handleHit = useCallback(() => {
-    if (isRoundOver) return;
-    setPlayerHand((prevHand) => [...prevHand, drawCard()]);
-  }, [isRoundOver]);
+  const handleHit = useCallback(async () => {
+    if (isRoundOver || isLoading || !deckId) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await drawCards(deckId, 1);
+      setPlayerHand((prev) => [...prev, ...data.cards.map(withId)]);
+    } catch {
+      setError("Erro ao comprar carta. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isRoundOver, isLoading, deckId]);
 
-  const handleStand = useCallback(() => {
-    if (isRoundOver) return;
-
-    setDealerHand((prevDealerHand) => {
-      let finalHand = [...prevDealerHand];
+  const handleStand = useCallback(async () => {
+    if (isRoundOver || isLoading || !deckId) return;
+    setIsLoading(true);
+    setError(null);
+    try {
+      let finalHand = [...dealerHand];
       while (calculateScore(finalHand) < 17) {
-        finalHand = [...finalHand, drawCard()];
+        const data = await drawCards(deckId, 1);
+        finalHand = [...finalHand, ...data.cards.map(withId)];
       }
-      return finalHand;
-    });
-    setIsRoundOver(true);
-  }, [isRoundOver]);
+      setDealerHand(finalHand);
+      setIsRoundOver(true);
+    } catch {
+      setError("Erro ao comprar carta do dealer. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isRoundOver, isLoading, deckId, dealerHand]);
 
   useEffect(() => {
     if (isRoundOver && dealerScore > 0) {
@@ -82,11 +157,9 @@ export function GameProvider({ children }) {
   }, [isRoundOver, dealerScore, playerHand]);
 
   const handleNewRound = useCallback(() => {
-    setPlayerHand([drawCard(), drawCard()]);
-    setDealerHand([drawCard(), drawCard()]);
-    setIsRoundOver(false);
-    setStatusMessage("Sua vez: escolha Hit, Stand ou reinicie a rodada");
-  }, []);
+    if (isLoading) return;
+    startRound(deckId);
+  }, [isLoading, deckId, startRound]);
 
   return (
     <GameContext.Provider
@@ -97,6 +170,8 @@ export function GameProvider({ children }) {
         dealerScore,
         statusMessage,
         isRoundOver,
+        isLoading,
+        error,
         handleHit,
         handleStand,
         handleNewRound,

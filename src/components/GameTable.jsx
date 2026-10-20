@@ -11,6 +11,8 @@ function GameTable() {
     dealerScore,
     statusMessage,
     isRoundOver,
+    isLoading,
+    error,
     handleHit,
     handleStand,
     handleNewRound,
@@ -44,13 +46,28 @@ function GameTable() {
       </div>
 
       <p className="rounded-lg bg-[var(--color-secondary)] px-4 py-2.5 text-center font-semibold text-[var(--color-background)]">
-        {statusMessage}
+        {isLoading ? "Carregando..." : error ?? statusMessage}
       </p>
 
       <div className="flex flex-wrap justify-center gap-4">
-        <Button label="Hit" variant="primary" onClick={handleHit} disabled={isRoundOver} />
-        <Button label="Stand" variant="secondary" onClick={handleStand} disabled={isRoundOver} />
-        <Button label="Nova rodada" variant="ghost" onClick={handleNewRound} />
+        <Button
+          label="Hit"
+          variant="primary"
+          onClick={handleHit}
+          disabled={isRoundOver || isLoading}
+        />
+        <Button
+          label="Stand"
+          variant="secondary"
+          onClick={handleStand}
+          disabled={isRoundOver || isLoading}
+        />
+        <Button
+          label="Nova rodada"
+          variant="ghost"
+          onClick={handleNewRound}
+          disabled={isLoading}
+        />
       </div>
     </section>
   );
