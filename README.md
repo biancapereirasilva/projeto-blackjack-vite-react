@@ -3,6 +3,16 @@
 ## Objetivo
 O objetivo é entender como iniciar corretamente um projeto React moderno utilizando Vite.
 
+## Deploy
+Aplicação publicada na Vercel: https://projeto-blackjack-vite-react.vercel.app
+
+A rota `/game` é protegida: o acesso direto sem autenticação redireciona para `/login`. A senha é definida pela variável de ambiente `VITE_GAME_PASSWORD`.
+
+## Como rodar localmente
+1. Instale as dependências: `npm install`
+2. Copie o arquivo `.env.example` para `.env` e preencha `VITE_GAME_PASSWORD` com a senha desejada
+3. Inicie o projeto: `npm run dev`
+
 ## Tema Visual
 Paleta em tons de vermelho escuro (bordô), com destaque em dourado.
 
