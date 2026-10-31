@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { GameProvider } from "./context/GameContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Game from "./pages/Game";
@@ -13,7 +14,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/game" element={<Game />} />
+          <Route
+            path="/game"
+            element={
+              <PrivateRoute>
+                <Game />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </GameProvider>
